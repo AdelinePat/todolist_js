@@ -37,7 +37,7 @@ export function toggleDone(event) {
     paragraph.classList.toggle("crossed");
 
     const editBtn = li.querySelector(".edit");
-    if (event.target.classList.contains("done")) {
+    if (event.target.classList.contains("done") && editBtn) {
       editBtn.remove();
     } else {
       const edit = createBtn("edit", "Editer");
