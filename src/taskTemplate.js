@@ -1,6 +1,6 @@
 import { createError } from "./errors.js";
 
-function createBtn(type, text) {
+export function createBtn(type, text) {
   const delText = document.createTextNode(text);
   const delBtn = document.createElement("button");
   delBtn.setAttribute("class", type);
@@ -28,25 +28,23 @@ function generateEditInput(target) {
 
 function swapButton(target) {
   const editBtn = target.querySelector(".edit");
+  const swapMap = [
+    { fromClass: "edit", toClass: "validate", text: "Valider" },
+    { fromClass: "delete", toClass: "cancel", text: "Annuler" },
+  ];
 
-  if (editBtn) {
-    const delBtn = target.querySelector(".delete");
-
-    const validateBtn = createBtn("validate", "Valider");
-    const cancelBtn = createBtn("cancel", "Annuler");
-
-    editBtn.replaceWith(validateBtn);
-    delBtn.replaceWith(cancelBtn);
-  } else {
-    const validateBtn = target.querySelector(".validate");
-    const cancelBtn = target.querySelector(".cancel");
-
-    const editBtn = createBtn("edit", "Editer");
-    const delBtn = createBtn("delete", "Supprimer");
-
-    validateBtn.replaceWith(editBtn);
-    cancelBtn.replaceWith(delBtn);
-  }
+  swapMap.forEach(({ fromClass, toClass, text }) => {
+    if (editBtn) {
+      const oldBtn = target.querySelector(`.${fromClass}`);
+      const newBtn = createBtn(toClass, text);
+      oldBtn.replaceWith(newBtn);
+    } else {
+      const oldBtn = target.querySelector(`.${toClass}`);
+      const newText = fromClass === "edit" ? "Editer" : "Supprimer";
+      const newBtn = createBtn(fromClass, newText);
+      oldBtn.replaceWith(newBtn);
+    }
+  });
 }
 
 function createParagraph(string) {
@@ -88,6 +86,10 @@ export function backToOriginalTemplate(target, boolean) {
     }
   } else {
     paragraph = createParagraph(target.dataset.oldText);
+  }
+  const span = target.querySelector("span");
+  if (span.classList.contains("done")) {
+    paragraph.setAttribute("class", "crossed");
   }
   input.replaceWith(paragraph);
   swapButton(target);

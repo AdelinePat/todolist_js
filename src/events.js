@@ -2,6 +2,7 @@ import {
   backToOriginalTemplate,
   createElementTemplate,
   editElementTemplate,
+  createBtn,
 } from "./taskTemplate.js";
 import { createError } from "./errors.js";
 
@@ -34,6 +35,15 @@ export function toggleDone(event) {
     const paragraph = li.querySelector("p");
     console.log(event.target);
     paragraph.classList.toggle("crossed");
+
+    const editBtn = li.querySelector(".edit");
+    if (event.target.classList.contains("done")) {
+      editBtn.remove();
+    } else {
+      const edit = createBtn("edit", "Editer");
+      const delButton = li.querySelector(".delete");
+      delButton.before(edit);
+    }
   }
   //   if (event.target.classList.contains("todo")) {
   //     console.log(event.target);
