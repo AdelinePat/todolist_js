@@ -4,5 +4,6 @@ export default defineConfig({
   root: "src",
   buid: {
     outDir: "../dist",
+    emptyOutDir: true,
   },
 });
