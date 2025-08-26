@@ -1,25 +1,95 @@
+import { createError } from "./errors.js";
+
+function createBtn(type, text) {
+  const delText = document.createTextNode(text);
+  const delBtn = document.createElement("button");
+  delBtn.setAttribute("class", type);
+  delBtn.append(delText);
+  return delBtn;
+}
+
+function createSpan() {
+  const span = document.createElement("span");
+  span.setAttribute("class", "todo");
+  return span;
+}
+
+function generateEditInput(target) {
+  const newInput = document.createElement("input");
+  const oldParagraph = target.querySelector("p");
+  newInput.setAttribute("type", "text");
+  newInput.setAttribute("class", "taskInput");
+  newInput.value = oldParagraph.textContent;
+  target.dataset.oldText = oldParagraph.textContent;
+  oldParagraph.replaceWith(newInput);
+  newInput.focus();
+  newInput.select();
+}
+
+function swapButton(target) {
+  const editBtn = target.querySelector(".edit");
+
+  if (editBtn) {
+    const delBtn = target.querySelector(".delete");
+
+    const validateBtn = createBtn("validate", "Valider");
+    const cancelBtn = createBtn("cancel", "Annuler");
+
+    editBtn.replaceWith(validateBtn);
+    delBtn.replaceWith(cancelBtn);
+  } else {
+    const validateBtn = target.querySelector(".validate");
+    const cancelBtn = target.querySelector(".cancel");
+
+    const editBtn = createBtn("edit", "Editer");
+    const delBtn = createBtn("delete", "Supprimer");
+
+    validateBtn.replaceWith(editBtn);
+    cancelBtn.replaceWith(delBtn);
+  }
+}
+
+function createParagraph(string) {
+  const text = document.createTextNode(string);
+  const paragraph = document.createElement("p");
+  paragraph.append(text);
+  return paragraph;
+}
 
 export function createElementTemplate(todoString) {
   const ul = document.querySelector("ul");
 
   const li = document.createElement("li");
+  const span = createSpan();
+  const paragraph = createParagraph(todoString);
+  const editBtn = createBtn("edit", "Editer");
+  const delBtn = createBtn("delete", "Supprimer");
 
-  const span = document.createElement("span");
-  span.setAttribute("class", "todo");
-
-  const text = document.createTextNode(todoString);
-  const paragraph = document.createElement("p");
-
-  const editText = document.createTextNode("Editer");
-  const editBtn = document.createElement("button");
-
-  const delText = document.createTextNode("Supprimer");
-  const delBtn = document.createElement("button");
-  delBtn.setAttribute("class", "delete");
-
-  paragraph.append(text);
-  editBtn.append(editText);
-  delBtn.append(delText);
   li.append(span, paragraph, editBtn, delBtn);
   ul.append(li);
+}
+
+export function editElementTemplate(target) {
+  console.log(target);
+  generateEditInput(target);
+  swapButton(target);
+}
+
+export function backToOriginalTemplate(target, boolean) {
+  const input = target.querySelector("input");
+  let paragraph;
+  if (boolean) {
+    if (input.value.trim() === "") {
+      const err = createError("La tâche ne peut pas être vide");
+      target.after(err);
+      paragraph = createParagraph(target.dataset.oldText);
+    } else {
+      paragraph = createParagraph(input.value);
+    }
+  } else {
+    paragraph = createParagraph(target.dataset.oldText);
+  }
+  input.replaceWith(paragraph);
+  swapButton(target);
+  delete target.dataset.oldText;
 }

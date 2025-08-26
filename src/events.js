@@ -1,4 +1,9 @@
-import { createElementTemplate } from "./taskTemplate.js";
+import {
+  backToOriginalTemplate,
+  createElementTemplate,
+  editElementTemplate,
+} from "./taskTemplate.js";
+import { createError } from "./errors.js";
 
 export function addElement(event) {
   const addBtn = event.target.closest("form button");
@@ -10,7 +15,10 @@ export function addElement(event) {
     if (inputText) {
       createElementTemplate(inputText);
     } else {
-      console.log("oups le champ est vide!");
+      if (!document.querySelector(".error")) {
+        const error = createError("Vous ne pouvez pas ajouter une tâche vide");
+        form.after(error);
+      }
     }
     input.value = "";
     input.focus();
@@ -22,6 +30,10 @@ export function toggleDone(event) {
   if (doneBtn) {
     console.log(event.target);
     event.target.classList.toggle("done");
+    const li = event.target.closest("li");
+    const paragraph = li.querySelector("p");
+    console.log(event.target);
+    paragraph.classList.toggle("crossed");
   }
   //   if (event.target.classList.contains("todo")) {
   //     console.log(event.target);
@@ -42,4 +54,27 @@ export function deleteElement(event) {
   //     console.log(element);
   //     element.remove();
   //   }
+}
+
+export function deleteError(event) {
+  const err = event.target.closest(".error");
+  if (err) {
+    err.remove();
+  }
+}
+
+export function editElement(event) {
+  const editBtn = event.target.closest(".edit");
+  if (editBtn) {
+    editElementTemplate(event.target.closest("li"));
+    console.log("edit!!!");
+  }
+  const validateBtn = event.target.closest(".validate");
+  if (validateBtn || event.key === "Enter") {
+    backToOriginalTemplate(event.target.closest("li"), true);
+  }
+  const cancelBtn = event.target.closest(".cancel");
+  if (cancelBtn || event.key === "Escape") {
+    backToOriginalTemplate(event.target.closest("li"), false);
+  }
 }

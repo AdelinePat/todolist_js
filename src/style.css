@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: "roboto", "sans-serif";
+  font-family: "Roboto", "Helvetica", Arial, sans-serif;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -63,6 +63,15 @@ li p {
   flex: 1;
 }
 
+li .taskInput {
+  flex: 1;
+  padding: 5px 0;
+  border: none;
+  color: #666;
+  font-style: italic;
+  letter-spacing: 0.05rem;
+}
+
 li .todo {
   /* background: #333; */
   /* flex: 0 0 20px; */
@@ -79,4 +88,16 @@ li .todo {
 
 li .todo.done {
   background: #333;
+}
+
+.crossed {
+  text-decoration: line-through;
+  color: #666;
+  font-style: italic;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-bottom: 20px;
 }
