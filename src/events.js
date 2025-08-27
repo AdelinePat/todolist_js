@@ -68,7 +68,8 @@ export function editElement(event, todoList) {
 }
 export function toggleDoneElement(event, todoList) {
   const doneBtn = event.target.closest("span");
-  if (doneBtn) {
+  const li = event.target.closest("li");
+  if (doneBtn && li.dataset.mode === "view") {
     const target = event.target.closest("li");
     todoList = toggleDoneTask(todoList, target.dataset.id);
     updateDone(

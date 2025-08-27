@@ -15,6 +15,7 @@ body {
 .container {
   max-width: 1000px;
   min-width: 500px;
+  width: 50%;
   border: 1px solid #eee;
   border-radius: 3px;
   padding: 20px;
@@ -105,4 +106,9 @@ li .todo.done {
 
 .hide {
   display: none;
+}
+
+.unavailable {
+  opacity: 0.3;
+  cursor: not-allowed !important;
 }
