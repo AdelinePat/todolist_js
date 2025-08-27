@@ -39,31 +39,38 @@ function generateEditInput(target, task) {
 }
 
 export function createDOMTask(task) {
+  const values = [
+    {
+      fromClass: "edit",
+      toClass: "validate",
+      fromText: "Editer",
+      toText: "Valider",
+    },
+    {
+      fromClass: "delete",
+      toClass: "cancel",
+      fromText: "Supprimer",
+      toText: "Annuler",
+    },
+  ];
   const li = document.createElement("li");
   li.dataset.id = task.id;
   li.dataset.mode = task.mode;
   const span = createSpan();
-  let paragraph;
-  let firstBtn = createBtn("edit", "Editer");
-  let secondBtn = createBtn("delete", "Supprimer");
+  const firstBtn = createBtn("edit", "Editer");
+  const secondBtn = createBtn("delete", "Supprimer");
 
-  if (task.mode === "view") {
-    paragraph = createParagraph(task.text);
-  } else {
-    firstBtn.classList.add("validate");
-    firstBtn.classList.remove("edit");
-    firstBtn.textContent = "Valider";
-
-    secondBtn.classList.add("cancel");
-    secondBtn.classList.remove("delete");
-    secondBtn.textContent = "Annuler";
-
-    paragraph = generateEditInput(li, task);
-  }
+  const paragraph =
+    task.mode === "view"
+      ? createParagraph(task.text)
+      : generateEditInput(li, task);
+  setClassState(span, "unavailable", task.mode === "edit");
   li.append(span, paragraph, firstBtn, secondBtn);
   if (task.done) {
     updateDone(li, task);
   }
+  toggleBtnEdits(task, firstBtn, values[0]);
+  toggleBtnEdits(task, secondBtn, values[1]);
 
   return li;
 }
@@ -91,4 +98,12 @@ function setClassState(el, className, condition) {
   } else {
     el.classList.remove(className);
   }
+}
+
+function toggleBtnEdits(task, btn, values) {
+  btn.classList.add(task.mode === "view" ? values.fromClass : values.toClass);
+  btn.classList.remove(
+    task.mode === "view" ? values.toClass : values.fromClass
+  );
+  btn.textContent = task.mode === "view" ? values.fromText : values.toText;
 }
