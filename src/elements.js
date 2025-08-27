@@ -75,15 +75,6 @@ export function updateDone(target, task) {
   setClassState(span, "done", task.done);
   setClassState(paragraph, "crossed", task.done);
   setClassState(editBtn, "hide", task.done);
-  //   if (task.done) {
-  //     span.classList.add("done");
-  //     paragraph.classList.add("crossed");
-  //     editBtn.classList.add("hide");
-  //   } else {
-  //     span.classList.remove("done");
-  //     paragraph.classList.remove("crossed");
-  //     editBtn.classList.remove("hide");
-  //   }
 }
 
 export function showError(target) {
