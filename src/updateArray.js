@@ -15,7 +15,7 @@ export function editTask(todoList, target) {
     (element) => element.id === Number(target.dataset.id)
   );
   if (task) {
-    const inputText = target.querySelector("input").value;
+    const inputText = target.querySelector("input").value.trim();
     if (emptyInput(inputText)) {
       task.text = target.dataset.oldText;
       task.error = "Vous ne pouvez pas modifier la tâche pour être vide";

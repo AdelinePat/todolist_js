@@ -40,6 +40,7 @@ function generateEditInput(target, task) {
 }
 
 export function createDOMTask(task) {
+    
   const values = [
     {
       fromClass: "edit",

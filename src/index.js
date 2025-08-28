@@ -69,15 +69,6 @@ let todoList = [
     done: true,
     mode: "view",
   },
-  //   {
-  //     id: 1,
-  //     text: "finir les exercices de la certification Javascript",
-  //     done: false,
-  //     mode: "view",
-  //   },
-  //   { id: 2, text: "S'entraîner à utiliser docker", done: false, mode: "view" },
-  //   { id: 3, text: "Finir de rédiger le README.md", done: true, mode: "view" },
-  //   { id: 4, text: "Refactoriser le code", done: true, mode: "view" },
 ];
 
 function pluralize(count, singular, plural) {
@@ -126,7 +117,6 @@ container.addEventListener("dblclick", (event) => {
   const li = event.target.closest("li");
   const span = li.querySelector("span");
   if (!span.classList.contains("done")) {
-    console.log(li, span);
     editElement(event, todoList, event.target.closest("p"));
   }
 });
@@ -140,6 +130,5 @@ function renderList() {
     const li = createDOMTask(element);
     ul.prepend(li);
   });
-  console.log(todoList.length);
   console.log(todoList);
 }
