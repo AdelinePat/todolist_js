@@ -49,10 +49,11 @@ export function deleteElement(event, todoList) {
   return todoList;
 }
 
-export function editElement(event, todoList) {
+
+
+export function editElement(event, todoList, whatActivate) {
   const target = event.target.closest("li");
-  const editBtn = event.target.closest(".edit");
-  if (editBtn) {
+  if (whatActivate) {
     changeMode(todoList, target);
   }
   const validateBtn = event.target.closest(".validate");
@@ -66,6 +67,7 @@ export function editElement(event, todoList) {
     cancelEdit(todoList, target);
   }
 }
+
 export function toggleDoneElement(event, todoList) {
   const doneBtn = event.target.closest("span");
   const li = event.target.closest("li");

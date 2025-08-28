@@ -3,6 +3,7 @@ export function createBtn(type, text) {
   const delBtn = document.createElement("button");
   delBtn.setAttribute("class", type);
   delBtn.append(delText);
+  addIcon(delBtn);
   return delBtn;
 }
 
@@ -65,12 +66,14 @@ export function createDOMTask(task) {
       ? createParagraph(task.text)
       : generateEditInput(li, task);
   setClassState(span, "unavailable", task.mode === "edit");
+
   li.append(span, paragraph, firstBtn, secondBtn);
   if (task.done) {
     updateDone(li, task);
   }
   toggleBtnEdits(task, firstBtn, values[0]);
   toggleBtnEdits(task, secondBtn, values[1]);
+  setClassState(li, "edit-mode", task.mode === "edit");
 
   return li;
 }
@@ -106,4 +109,28 @@ function toggleBtnEdits(task, btn, values) {
     task.mode === "view" ? values.toClass : values.fromClass
   );
   btn.textContent = task.mode === "view" ? values.fromText : values.toText;
+  addIcon(btn);
+}
+
+function addIcon(btn) {
+  const icon = document.createElement("i");
+  switch (btn.textContent) {
+    case "Editer":
+      btn.classList.add("ternary-color");
+      btn.classList.remove("main-color");
+      icon.className = "fa-solid fa-pen";
+      break;
+    case "Supprimer":
+    case "Annuler":
+      icon.className = "fa-regular fa-circle-xmark";
+      btn.classList.add("secondary-color");
+      break;
+    case "Valider":
+      btn.classList.remove("ternary-color");
+      btn.classList.add("main-color");
+      // <i class="fa-regular fa-circle-check"></i>
+      icon.className = "fa-regular fa-circle-check";
+      break;
+  }
+  btn.prepend(icon);
 }
