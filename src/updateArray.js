@@ -5,7 +5,8 @@ export function addTask(string, todoList) {
   } else {
     maxId = 0;
   }
-  todoList.push({ id: maxId, text: string, done: false, mode: "view" });
+  const newString = string[0].toUpperCase() + string.slice(1);
+  todoList.push({ id: maxId, text: newString, done: false, mode: "view" });
   return maxId;
 }
 
@@ -19,7 +20,8 @@ export function editTask(todoList, target) {
       task.text = target.dataset.oldText;
       task.error = "Vous ne pouvez pas modifier la tâche pour être vide";
     } else {
-      task.text = inputText;
+      const newString = inputText[0].toUpperCase() + inputText.slice(1);
+      task.text = newString;
       delete task.oldText;
       delete task.error;
     }
