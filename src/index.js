@@ -79,12 +79,19 @@ let todoList = [
   //   { id: 3, text: "Finir de rédiger le README.md", done: true, mode: "view" },
   //   { id: 4, text: "Refactoriser le code", done: true, mode: "view" },
 ];
+
+function pluralize(count, singular, plural) {
+  return count > 1 ? plural : singular;
+}
+
 const title = document.querySelector("h1");
 const titleSpan = document.createElement("span");
 title.prepend(titleSpan);
-titleSpan.textContent = `${todoList.length} ${
-  todoList.lenght > 1 ? "chose" : "choses"
-} `;
+titleSpan.textContent = `${todoList.length} ${pluralize(
+  todoList.length,
+  "chose",
+  "choses"
+)} `;
 
 const container = document.querySelector(".container");
 renderList();
@@ -95,9 +102,11 @@ container.addEventListener("click", (event) => {
   todoList = toggleDoneElement(event, todoList);
   editElement(event, todoList, event.target.closest(".edit"));
   deleteError(event);
-  titleSpan.textContent = `${todoList.length} ${
-    todoList.lenght > 1 ? "chose" : "choses"
-  } `;
+  titleSpan.textContent = `${todoList.length} ${pluralize(
+    todoList.length,
+    "chose",
+    "choses"
+  )} `;
 });
 
 container.addEventListener("keydown", (event) => {
